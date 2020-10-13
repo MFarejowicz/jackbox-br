@@ -1,39 +1,39 @@
-import React, { useState, useEffect } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-function App() {
-  // Create the count state.
-  const [count, setCount] = useState(0);
-  // Create the counter (+1 every second).
-  useEffect(() => {
-    const timer = setTimeout(() => setCount(count + 1), 1000);
-    return () => clearTimeout(timer);
-  }, [count, setCount]);
-  // Return the App component.
+import Home from "./pages/Home";
+import Room from "./pages/Room";
+import NotFound from "./pages/NotFound";
+
+import { get } from "./utilities";
+
+const App = () => {
+  React.useEffect(() => {
+    async function test() {
+      const res = await get("/api/test");
+      console.log(res);
+    }
+    test();
+    // fetch("/api/test").then((res) => console.log(res));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.jsx</code> and save to reload.
-        </p>
-        <p>
-          Page has been open for <code>{count}</code> seconds.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </p>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route exact path="/:roomID(\w{4})">
+          {/* (\w{4}) signifies 4 word characters
+            this is how we validate room codes */}
+          <Room />
+        </Route>
+        <Route exact path="/">
+          <Home />
+        </Route>
+        <Route path="*">
+          <NotFound />
+        </Route>
+      </Switch>
+    </Router>
   );
-}
+};
 
 export default App;

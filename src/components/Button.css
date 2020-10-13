@@ -1,0 +1,4 @@
+.Button-button {
+  font-size: var(--md-font);
+  padding: var(--sm-space);
+}

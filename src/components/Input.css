@@ -1,0 +1,25 @@
+.Input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Input-main {
+  display: flex;
+  align-items: center;
+}
+
+.Input-label {
+  margin-right: var(--sm-space);
+  font-size: var(--md-font);
+}
+
+.Input-input {
+  padding: var(--sm-space);
+  font-size: var(--md-font);
+}
+
+.Input-error {
+  color: red;
+  font-size: var(--sm-font);
+}
