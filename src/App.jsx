@@ -14,7 +14,6 @@ const App = () => {
       console.log(res);
     }
     test();
-    // fetch("/api/test").then((res) => console.log(res));
   }, []);
 
   return (

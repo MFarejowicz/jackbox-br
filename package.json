@@ -2,12 +2,12 @@
   "name": "jackbox-br",
   "version": "0.1.0",
   "scripts": {
-    "start": "snowpack dev",
+    "client": "snowpack dev",
+    "server": "nodemon server/server.js",
     "build": "snowpack build",
     "test": "jest",
     "format": "prettier --write \"src/**/*.{js,jsx}\"",
-    "lint": "prettier --check \"src/**/*.{js,jsx}\"",
-    "server": "nodemon server/server.js"
+    "lint": "prettier --check \"src/**/*.{js,jsx}\""
   },
   "dependencies": {
     "express": "^4.17.1",

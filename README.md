@@ -1,4 +1,4 @@
-# New Project
+# Jackbox BR!
 
 > ✨ Bootstrapped with Create Snowpack App (CSA).
 
