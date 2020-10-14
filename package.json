@@ -1,6 +1,11 @@
 {
   "name": "jackbox-br",
   "version": "0.1.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MFarejowicz/jackbox-br.git"
+  },
+  "license": "MIT",
   "scripts": {
     "client": "snowpack dev",
     "server": "nodemon server/server.js",
@@ -11,6 +16,7 @@
   },
   "dependencies": {
     "express": "^4.17.1",
+    "prop-types": "^15.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-router-dom": "^5.2.0",
@@ -25,6 +31,12 @@
     "@snowpack/plugin-webpack": "^2.0.16",
     "@testing-library/jest-dom": "^5.5.0",
     "@testing-library/react": "^11.0.0",
+    "eslint": "^7.11.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.21.4",
+    "eslint-plugin-react-hooks": "^4.1.2",
     "jest": "^26.2.2",
     "nodemon": "^2.0.5",
     "prettier": "^2.0.5",

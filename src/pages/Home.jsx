@@ -26,14 +26,14 @@ const Home = () => {
   const [errors, setErrors] = React.useState({ name: "", game: "" });
 
   const onNameChange = (ev) => {
-    setErrors((errors) => ({ ...errors, name: "" }));
+    setErrors((prevErrors) => ({ ...prevErrors, name: "" }));
 
     const val = ev.target.value;
     setName(val);
   };
 
   const onGameChange = (ev) => {
-    setErrors((errors) => ({ ...errors, game: "" }));
+    setErrors((prevErrors) => ({ ...prevErrors, game: "" }));
 
     const val = ev.target.value;
     setGame(val);
@@ -50,7 +50,7 @@ const Home = () => {
   const onCreateGame = () => {
     let valid = true;
     if (!name) {
-      setErrors((errors) => ({ ...errors, name: "Please enter a name!" }));
+      setErrors((prevErrors) => ({ ...prevErrors, name: "Please enter a name!" }));
       valid = false;
     }
 
@@ -66,16 +66,16 @@ const Home = () => {
   const onJoinGame = () => {
     let valid = true;
     if (!name) {
-      setErrors((errors) => ({ ...errors, name: "Please enter a name!" }));
+      setErrors((prevErrors) => ({ ...prevErrors, name: "Please enter a name!" }));
       valid = false;
     }
     if (!game) {
-      setErrors((errors) => ({ ...errors, game: "Please enter a game code!" }));
+      setErrors((prevErrors) => ({ ...prevErrors, game: "Please enter a game code!" }));
       valid = false;
     }
     if (game && !isValidCode(game)) {
-      setErrors((errors) => ({
-        ...errors,
+      setErrors((prevErrors) => ({
+        ...prevErrors,
         game: "A game code should be 4 alphanumeric characters!",
       }));
       valid = false;

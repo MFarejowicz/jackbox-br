@@ -1,3 +1,5 @@
+const socketThing = require("socket.io");
+
 class Player {
   constructor(id, name) {
     this.id = id;
@@ -49,16 +51,16 @@ class Game {
     if (this.players[id]) {
       delete this.players[id];
       return true;
-    } else {
-      return false;
     }
+
+    return false;
   }
 }
 
 const liveGames = {};
 
 const doSocket = (http) => {
-  const io = require("socket.io")(http);
+  const io = socketThing(http);
 
   io.on("connection", (socket) => {
     console.log(`socket has connected ${socket.id}`);

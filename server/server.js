@@ -10,6 +10,7 @@ app.use(express.static(reactPath));
 app.use(express.json());
 
 const api = require("./api");
+
 app.use("/api", api);
 
 // general catch
@@ -18,7 +19,7 @@ app.get("*", (req, res) => {
 });
 
 // any server errors cause this function to run
-app.use((err, req, res, next) => {
+app.use((err, _req, res, _next) => {
   const status = err.status || 500;
   if (status === 500) {
     // 500 means Internal Server Error
@@ -28,13 +29,14 @@ app.use((err, req, res, next) => {
 
   res.status(status);
   res.send({
-    status: status,
+    status,
     message: err.message,
   });
 });
 
 const server = http.createServer(app);
 const doSocket = require("./socket");
+
 doSocket(server);
 
 const port = process.env.PORT || 3000;
