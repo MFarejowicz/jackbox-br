@@ -2,28 +2,28 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import "./Home.css";
 
-import Input from "../components/Input";
-import Button from "../components/Button";
+import Input from "@components/Input";
+import Button from "@components/Button";
 
-import { socket } from "../socket";
+import { socket } from "@app/socket";
 
-const ROOM_REGEX = /\w{4}/;
-const ROOM_CODE_LENGTH = 4;
+const GAME_CODE_REGEX = /\w{4}/;
+const GAME_CODE_LENGTH = 4;
 function isValidCode(code) {
-  if (code.length !== ROOM_CODE_LENGTH) {
+  if (code.length !== GAME_CODE_LENGTH) {
     return false;
   }
 
-  return ROOM_REGEX.test(code);
+  return GAME_CODE_REGEX.test(code);
 }
 
 const Home = () => {
   const [step, setStep] = React.useState("START");
   const [name, setName] = React.useState("");
-  const [room, setRoom] = React.useState("");
+  const [game, setGame] = React.useState("");
   const [join, setJoin] = React.useState(false);
 
-  const [errors, setErrors] = React.useState({ name: "", room: "" });
+  const [errors, setErrors] = React.useState({ name: "", game: "" });
 
   const onNameChange = (ev) => {
     setErrors((errors) => ({ ...errors, name: "" }));
@@ -32,23 +32,22 @@ const Home = () => {
     setName(val);
   };
 
-  const onRoomChange = (ev) => {
-    setErrors((errors) => ({ ...errors, room: "" }));
+  const onGameChange = (ev) => {
+    setErrors((errors) => ({ ...errors, game: "" }));
 
     const val = ev.target.value;
-    setRoom(val);
+    setGame(val);
   };
 
   const onClickBack = () => {
     setName("");
-    setRoom("");
+    setGame("");
     setStep("START");
 
-    setErrors({ name: "", room: "" });
+    setErrors({ name: "", game: "" });
   };
 
-  const onCreateRoom = () => {
-    socket.emit("create");
+  const onCreateGame = () => {
     let valid = true;
     if (!name) {
       setErrors((errors) => ({ ...errors, name: "Please enter a name!" }));
@@ -57,25 +56,27 @@ const Home = () => {
 
     if (valid) {
       const id = Math.random().toString(36).substring(2, 6).toUpperCase();
-      setRoom(id);
+      setGame(id);
       setJoin(true);
+      socket.emit("CREATE_GAME", { gameID: id });
+      socket.emit("JOIN_GAME", { name, gameID: id });
     }
   };
 
-  const onJoinRoom = () => {
+  const onJoinGame = () => {
     let valid = true;
     if (!name) {
       setErrors((errors) => ({ ...errors, name: "Please enter a name!" }));
       valid = false;
     }
-    if (!room) {
-      setErrors((errors) => ({ ...errors, room: "Please enter a room code!" }));
+    if (!game) {
+      setErrors((errors) => ({ ...errors, game: "Please enter a game code!" }));
       valid = false;
     }
-    if (room && !isValidCode(room)) {
+    if (game && !isValidCode(game)) {
       setErrors((errors) => ({
         ...errors,
-        room: "A room code should be 4 alphanumeric characters!",
+        game: "A game code should be 4 alphanumeric characters!",
       }));
       valid = false;
     }
@@ -86,7 +87,7 @@ const Home = () => {
   };
 
   if (join) {
-    return <Redirect push to={`/${room}`} />;
+    return <Redirect push to={`/${game}`} />;
   }
 
   const renderInner = () => {
@@ -94,8 +95,8 @@ const Home = () => {
       case "START":
         return (
           <>
-            <Button onClick={() => setStep("CREATING")}>Create Room</Button>
-            <Button onClick={() => setStep("JOINING")}>Join Room</Button>
+            <Button onClick={() => setStep("CREATING")}>Create Game</Button>
+            <Button onClick={() => setStep("JOINING")}>Join Game</Button>
           </>
         );
       case "CREATING":
@@ -110,7 +111,7 @@ const Home = () => {
               error={errors.name}
             />
             <Button onClick={onClickBack}>Back</Button>
-            <Button onClick={onCreateRoom}>Create</Button>
+            <Button onClick={onCreateGame}>Create</Button>
           </>
         );
       case "JOINING":
@@ -126,14 +127,14 @@ const Home = () => {
             />
             <Input
               type="text"
-              id="join-room"
-              label="Room:"
-              value={room}
-              onChange={onRoomChange}
-              error={errors.room}
+              id="join-game"
+              label="Game:"
+              value={game}
+              onChange={onGameChange}
+              error={errors.game}
             />
             <Button onClick={onClickBack}>Back</Button>
-            <Button onClick={onJoinRoom}>Join</Button>
+            <Button onClick={onJoinGame}>Join</Button>
           </>
         );
       default:

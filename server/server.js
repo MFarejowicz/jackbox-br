@@ -34,19 +34,8 @@ app.use((err, req, res, next) => {
 });
 
 const server = http.createServer(app);
-const io = require("socket.io")(server);
-
-io.on("connection", (socket) => {
-  console.log(`socket has connected ${socket.id}`);
-
-  socket.on("create", () => {
-    console.log("test");
-  });
-
-  socket.on("disconnect", () => {
-    console.log(`socket has disconnected ${socket.id}`);
-  });
-});
+const doSocket = require("./socket");
+doSocket(server);
 
 const port = process.env.PORT || 3000;
 server.listen(port, () => {
