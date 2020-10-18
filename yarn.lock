@@ -9198,6 +9198,13 @@ timers-browserify@^2.0.4:
   dependencies:
     setimmediate "^1.0.4"
 
+timrjs@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/timrjs/-/timrjs-1.0.1.tgz#22a34eca307b6db39cd6b00a589a1c9646aa6897"
+  integrity sha1-IqNOyjB7bbOc1rAKWJoclkaqaJc=
+  dependencies:
+    object-assign "^4.1.0"
+
 timsort@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/timsort/-/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"

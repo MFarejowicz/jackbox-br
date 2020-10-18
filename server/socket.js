@@ -1,4 +1,5 @@
 const socketThing = require("socket.io");
+const Timr = require("timrjs");
 
 class Player {
   constructor(id, name) {
@@ -16,10 +17,27 @@ class Player {
 }
 
 class Game {
-  constructor(id) {
+  constructor(id, io) {
     this.id = id;
+    this.io = io;
     this.state = "LOBBY";
     this.players = {};
+    this.timer = new Timr(60, { padRaw: false }); // padRaw false => raw returns number
+    this.timer.ticker(({ _formattedTime, _percentDone, raw }) => {
+      // console.log(formattedTime);
+      // console.log(percentDone);
+      // console.log(raw);
+      this.io.to(this.id).emit("COUNTDOWN", { time: raw.currentSeconds });
+      // formattedTime: '09:59'
+      // percentDone:   0
+    });
+    this.timer.start();
+    // this.timerInstance = new Timer({ target: { seconds: 10 }, countdown: true });
+    // this.timerInstance.on("secondsUpdated", () => {
+    //   console.log("here");
+    //   this.io.emit("COUNTDOWN", { time: this.timerInstance.getTimeValues() });
+    // });
+    // this.timerInstance.start();
   }
 
   getID() {
@@ -69,7 +87,7 @@ const doSocket = (http) => {
       const { gameID } = data;
       if (gameID) {
         console.log(`creating game ${gameID}`);
-        liveGames[gameID] = new Game(gameID);
+        liveGames[gameID] = new Game(gameID, io);
       } else {
         console.log("missing game data");
       }

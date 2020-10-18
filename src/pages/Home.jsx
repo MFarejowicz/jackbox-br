@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import "./Home.css";
 
 import Input from "@components/Input";
 import Button from "@components/Button";
 
-import { socket } from "@app/socket";
+import socket from "@app/socket";
 
 const GAME_CODE_REGEX = /\w{4}/;
 const GAME_CODE_LENGTH = 4;
@@ -18,12 +18,12 @@ function isValidCode(code) {
 }
 
 const Home = () => {
-  const [step, setStep] = React.useState("START");
-  const [name, setName] = React.useState("");
-  const [game, setGame] = React.useState("");
-  const [join, setJoin] = React.useState(false);
+  const [step, setStep] = useState("START");
+  const [name, setName] = useState("");
+  const [game, setGame] = useState("");
+  const [join, setJoin] = useState(false);
 
-  const [errors, setErrors] = React.useState({ name: "", game: "" });
+  const [errors, setErrors] = useState({ name: "", game: "" });
 
   const onNameChange = (ev) => {
     setErrors((prevErrors) => ({ ...prevErrors, name: "" }));
