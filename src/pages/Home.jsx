@@ -82,7 +82,16 @@ const Home = () => {
     }
 
     if (valid) {
-      setJoin(true);
+      socket.emit("JOIN_GAME", { name, gameID: game }, (success) => {
+        if (success) {
+          setJoin(true);
+        } else {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            name: "This name is already taken!",
+          }));
+        }
+      });
     }
   };
 

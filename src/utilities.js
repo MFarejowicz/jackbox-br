@@ -4,7 +4,7 @@ function formatParams(params) {
   // map it to a new array of URL string encoded key,value pairs
   // join all the url params using an ampersand (&).
   return Object.keys(params)
-    .map((key) => key + "=" + encodeURIComponent(params[key]))
+    .map((key) => `${key}=${encodeURIComponent(params[key])}`)
     .join("&");
 }
 
@@ -26,7 +26,7 @@ async function convertToJSON(res) {
 
 // helper code to make a get request. Default parameter of empty JSON Object for params
 export async function get(endpoint, params = {}) {
-  const fullPath = endpoint + "?" + formatParams(params);
+  const fullPath = `${endpoint}?${formatParams(params)}`;
   try {
     const res = await fetch(fullPath);
     const json = await convertToJSON(res);
