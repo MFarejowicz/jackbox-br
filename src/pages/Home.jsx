@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
+import PropTypes from "prop-types";
 import "./Home.css";
 
 import Input from "@components/Input";
@@ -17,7 +18,7 @@ function isValidCode(code) {
   return GAME_CODE_REGEX.test(code);
 }
 
-const Home = () => {
+const Home = (props) => {
   const [step, setStep] = useState("START");
   const [name, setName] = useState("");
   const [game, setGame] = useState("");
@@ -57,9 +58,19 @@ const Home = () => {
     if (valid) {
       const id = Math.random().toString(36).substring(2, 6).toUpperCase();
       setGame(id);
-      setJoin(true);
+
       socket.emit("CREATE_GAME", { gameID: id });
-      socket.emit("JOIN_GAME", { name, gameID: id });
+      socket.emit("JOIN_GAME", { name, gameID: id }, (error) => {
+        if (!error) {
+          props.setIdentity({ name, leader: true });
+          setJoin(true);
+        } else {
+          setErrors((prevErrors) => ({
+            ...prevErrors,
+            name: error,
+          }));
+        }
+      });
     }
   };
 
@@ -82,13 +93,14 @@ const Home = () => {
     }
 
     if (valid) {
-      socket.emit("JOIN_GAME", { name, gameID: game }, (success) => {
-        if (success) {
+      socket.emit("JOIN_GAME", { name, gameID: game }, (error) => {
+        if (!error) {
+          props.setIdentity({ name, leader: false });
           setJoin(true);
         } else {
           setErrors((prevErrors) => ({
             ...prevErrors,
-            name: "This name is already taken!",
+            name: error,
           }));
         }
       });
@@ -157,6 +169,10 @@ const Home = () => {
       {renderInner()}
     </div>
   );
+};
+
+Home.propTypes = {
+  setIdentity: PropTypes.func,
 };
 
 export default Home;

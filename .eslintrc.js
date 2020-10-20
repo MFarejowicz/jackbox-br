@@ -21,6 +21,7 @@ module.exports = {
     "arrow-body-style": "off",
     "comma-dangle": "off",
     "max-classes-per-file": "off",
+    "no-param-reassign": "off",
     "no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
     quotes: ["error", "double"],
   },

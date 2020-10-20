@@ -68,16 +68,17 @@ class Game {
 
   addPlayer(id, name) {
     if (this.hasPlayer(name)) {
-      return false;
+      return "This name is already taken!";
     }
 
-    console.log(`adding player ${name} to game ${this.getID()}`);
+    console.log(`adding player ${id} to game ${this.getID()}`);
     this.players[id] = new Player(id, name);
-    return true;
+    return "";
   }
 
   removePlayer(id) {
     if (this.players[id]) {
+      console.log(`removing player ${id} from game ${this.getID()}`);
       delete this.players[id];
       return true;
     }

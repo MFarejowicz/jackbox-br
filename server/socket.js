@@ -3,6 +3,20 @@ const Game = require("./game");
 
 const liveGames = {};
 
+const onDisconnect = (socket, io) => {
+  const { gameID } = socket;
+  if (gameID) {
+    const game = liveGames[gameID];
+    if (game) {
+      game.removePlayer(socket.id);
+      delete socket.gameID;
+      delete socket.name;
+      io.to(gameID).emit("PLAYERS_UPDATE", { players: game.getFormattedPlayers() });
+      socket.leave(gameID);
+    }
+  }
+};
+
 const doSocket = (http) => {
   const io = socketThing(http);
 
@@ -23,13 +37,16 @@ const doSocket = (http) => {
       if (name && gameID) {
         const game = liveGames[gameID];
         if (game) {
-          const success = game.addPlayer(socket.id, name);
-          if (callback) callback(success); // need to callback first to change to game page
-          if (success) {
+          const error = game.addPlayer(socket.id, name);
+          if (callback) callback(error); // need to callback first to change to game page
+          if (!error) {
+            socket.gameID = gameID;
+            socket.name = name;
             socket.join(gameID);
-            io.to(gameID).emit("ADD_PLAYER", { players: game.getFormattedPlayers() });
+            io.to(gameID).emit("PLAYERS_UPDATE", { players: game.getFormattedPlayers() });
           }
         } else {
+          if (callback) callback(`No game exists with id ${gameID}!`);
           console.log(`no game exists with id ${gameID}`);
         }
       } else {
@@ -37,19 +54,13 @@ const doSocket = (http) => {
       }
     });
 
-    socket.on("LEAVE_GAME", (data) => {
-      const { gameID } = data;
-      if (gameID) {
-        const game = liveGames[gameID];
-        if (game) {
-          socket.leave(gameID);
-          game.removePlayer(socket.id);
-        }
-      }
+    socket.on("LEAVE_GAME", () => {
+      onDisconnect(socket, io);
     });
 
     socket.on("disconnect", () => {
       console.log(`socket has disconnected ${socket.id}`);
+      onDisconnect(socket, io);
     });
   });
 };
