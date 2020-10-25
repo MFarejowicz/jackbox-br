@@ -23,6 +23,7 @@ module.exports = {
     "max-classes-per-file": "off",
     "no-param-reassign": "off",
     "no-unused-vars": ["error", { argsIgnorePattern: "^_" }],
+    "operator-linebreak": "off",
     quotes: ["error", "double"],
   },
 };

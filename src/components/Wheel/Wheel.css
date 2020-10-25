@@ -1,0 +1,92 @@
+.Roulette-container {
+  position: relative;
+  width: 80vw;
+  max-width: 445px;
+  height: 80vw;
+  max-height: 445px;
+  object-fit: contain;
+  flex-shrink: 0;
+  z-index: 5;
+  pointer-events: none;
+}
+
+.Rotation-container {
+  position: absolute;
+  width: 100%;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.started-spinning0 {
+  animation: spin 2.6s cubic-bezier(0.71, -0.29, 0.96, 0.9) 0s 1 normal forwards running,
+    continueSpin 0.75s linear 2.6s 1 normal forwards running,
+    stopSpin0 8s cubic-bezier(0, 0, 0.35, 1.02) 3.35s 1 normal forwards running;
+}
+
+.started-spinning1 {
+  animation: spin 2.6s cubic-bezier(0.71, -0.29, 0.96, 0.9) 0s 1 normal forwards running,
+    continueSpin 0.75s linear 2.6s 1 normal forwards running,
+    stopSpin1 8s cubic-bezier(0, 0, 0.35, 1.02) 3.35s 1 normal forwards running;
+}
+
+.started-spinning2 {
+  animation: spin 2.6s cubic-bezier(0.71, -0.29, 0.96, 0.9) 0s 1 normal forwards running,
+    continueSpin 0.75s linear 2.6s 1 normal forwards running,
+    stopSpin2 8s cubic-bezier(0, 0, 0.35, 1.02) 3.35s 1 normal forwards running;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes continueSpin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes stopSpin2 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(1440deg);
+  }
+}
+
+@keyframes stopSpin1 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(1560deg);
+  }
+}
+
+@keyframes stopSpin0 {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(1680deg);
+  }
+}
+
+.Roulette-selector-image {
+  position: absolute;
+  z-index: 5;
+  width: 17%;
+  right: 6px;
+  top: 15px;
+}

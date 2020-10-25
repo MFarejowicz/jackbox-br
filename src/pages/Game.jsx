@@ -6,8 +6,11 @@ import "./Game.css";
 
 import Button from "@components/Button";
 import DirectJoin from "@components/DirectJoin";
+import Wheel from "@components/Wheel/Wheel";
 
 import socket from "@app/socket";
+
+const test = [{ option: "Trivia" }, { option: "Meme" }, { option: "Bingus" }];
 
 const Game = (props) => {
   const [players, setPlayers] = useState([]);
@@ -67,6 +70,7 @@ const Game = (props) => {
         {props.identity.leader && <Button>Start</Button>}
         <Button onClick={onLeave}>Leave</Button>
       </div>
+      <Wheel spinning prizeNumber={1} data={test} />
     </div>
   );
 };
