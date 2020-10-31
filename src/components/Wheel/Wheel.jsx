@@ -1,23 +1,22 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useRef } from "react";
+import PropTypes from "prop-types";
 
-import Selector from "./roulette-selector.png";
 import WheelCanvas from "./WheelCanvas";
+import Selector from "./roulette-selector.png";
 import "./Wheel.css";
 
-export const DEFAULT_BACKGROUND_COLORS = ["#70D6FF", "#FF70A6", "#FF9770", "#FFD670", "#E9FF70"];
-export const DEFAULT_TEXT_COLORS = ["black"];
-export const DEFAULT_OUTER_BORDER_COLOR = "black";
-export const DEFAULT_OUTER_BORDER_WIDTH = 3;
-export const DEFAULT_INNER_RADIUS = 0;
-export const DEFAULT_INNER_BORDER_COLOR = "black";
-export const DEFAULT_INNER_BORDER_WIDTH = 0;
-export const DEFAULT_RADIUS_LINE_COLOR = "black";
-export const DEFAULT_RADIUS_LINE_WIDTH = 3;
-export const DEFAULT_FONT_SIZE = 20;
-export const DEFAULT_TEXT_DISTANCE = 60;
-
-export const clamp = (min, max, val) => Math.min(Math.max(min, +val), max);
+const DEFAULT_BACKGROUND_COLORS = ["#70D6FF", "#FF70A6", "#FF9770", "#FFD670", "#E9FF70"];
+const DEFAULT_TEXT_COLORS = ["black"];
+const DEFAULT_OUTER_BORDER_COLOR = "black";
+const DEFAULT_OUTER_BORDER_WIDTH = 3;
+const DEFAULT_INNER_RADIUS = 0;
+const DEFAULT_INNER_BORDER_COLOR = "black";
+const DEFAULT_INNER_BORDER_WIDTH = 0;
+const DEFAULT_RADIUS_LINE_COLOR = "black";
+const DEFAULT_RADIUS_LINE_WIDTH = 3;
+const DEFAULT_FONT_SIZE = 20;
+const DEFAULT_TEXT_DISTANCE = 60;
 
 const START_SPINNING_TIME = 2600;
 const CONTINUE_SPINNING_TIME = 750;
@@ -114,6 +113,33 @@ const Wheel = ({
       <img className="Roulette-selector-image" src={Selector} alt="roulette-selector" />
     </div>
   );
+};
+
+Wheel.propTypes = {
+  spinning: PropTypes.bool.isRequired,
+  prizeNumber: PropTypes.number.isRequired,
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      option: PropTypes.string.isRequired,
+      style: PropTypes.shape({
+        backgroundColor: PropTypes.string,
+        textColor: PropTypes.string,
+      }),
+    })
+  ).isRequired,
+  onStopSpinning: PropTypes.func,
+  backgroundColors: PropTypes.arrayOf(PropTypes.string),
+  textColors: PropTypes.arrayOf(PropTypes.string),
+  outerBorderColor: PropTypes.string,
+  outerBorderWidth: PropTypes.number,
+  innerRadius: PropTypes.number,
+  innerBorderColor: PropTypes.string,
+  innerBorderWidth: PropTypes.number,
+  radiusLineColor: PropTypes.string,
+  radiusLineWidth: PropTypes.number,
+  fontSize: PropTypes.number,
+  perpendicularText: PropTypes.bool,
+  textDistance: PropTypes.number,
 };
 
 export default Wheel;

@@ -1,7 +1,7 @@
-/* eslint-disable react/prop-types */
 import React, { createRef, useEffect } from "react";
+import PropTypes from "prop-types";
 
-export const clamp = (min, max, val) => Math.min(Math.max(min, +val), max);
+const clamp = (min, max, val) => Math.min(Math.max(min, +val), max);
 
 const drawWheel = (canvasRef, data, drawWheelProps) => {
   const QUANTITY = data.length;
@@ -146,6 +146,30 @@ const WheelCanvas = ({
   return (
     <canvas style={{ width: "98%", height: "98%" }} ref={canvasRef} width={width} height={height} />
   );
+};
+
+WheelCanvas.propTypes = {
+  width: PropTypes.string.isRequired,
+  height: PropTypes.string.isRequired,
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      option: PropTypes.string.isRequired,
+      style: PropTypes.shape({
+        backgroundColor: PropTypes.string,
+        textColor: PropTypes.string,
+      }),
+    })
+  ).isRequired,
+  outerBorderColor: PropTypes.string,
+  outerBorderWidth: PropTypes.number,
+  innerRadius: PropTypes.number,
+  innerBorderColor: PropTypes.string,
+  innerBorderWidth: PropTypes.number,
+  radiusLineColor: PropTypes.string,
+  radiusLineWidth: PropTypes.number,
+  fontSize: PropTypes.number,
+  perpendicularText: PropTypes.bool,
+  textDistance: PropTypes.number,
 };
 
 export default WheelCanvas;
