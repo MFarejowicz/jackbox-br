@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Redirect, useParams } from "react-router-dom";
 import PropTypes from "prop-types";
-
-import "./Game.css";
+import "./styles.css";
 
 import Button from "@components/Button";
 import DirectJoin from "@components/DirectJoin";
-import Wheel from "@components/Wheel/Wheel";
+import Wheel from "@components/Wheel";
 
 import socket from "@app/socket";
 

@@ -2,9 +2,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
 
-import WheelCanvas from "./WheelCanvas";
+import WheelCanvas from "./wheelCanvas";
 import Selector from "./roulette-selector.png";
-import "./Wheel.css";
+import "./styles.css";
 
 const DEFAULT_BACKGROUND_COLORS = ["#70D6FF", "#FF70A6", "#FF9770", "#FFD670", "#E9FF70"];
 const DEFAULT_TEXT_COLORS = ["black"];

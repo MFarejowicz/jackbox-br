@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
-import "./Home.css";
+import "./styles.css";
 
 import Input from "@components/Input";
 import Button from "@components/Button";
