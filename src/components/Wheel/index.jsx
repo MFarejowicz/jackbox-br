@@ -22,6 +22,8 @@ const START_SPINNING_TIME = 2600;
 const CONTINUE_SPINNING_TIME = 750;
 const STOP_SPINNING_TIME = 8000;
 
+// const test = [{ option: "Trivia" }, { option: "Meme" }, { option: "Bingus" }];
+
 const Wheel = ({
   spinning,
   prizeNumber,

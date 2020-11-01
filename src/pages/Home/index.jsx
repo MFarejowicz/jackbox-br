@@ -60,9 +60,9 @@ const Home = (props) => {
       setGame(id);
 
       socket.emit("CREATE_GAME", { gameID: id });
-      socket.emit("JOIN_GAME", { name, gameID: id }, (error) => {
+      socket.emit("JOIN_GAME", { name, leader: true, gameID: id }, (error) => {
         if (!error) {
-          props.setIdentity({ name, leader: true });
+          props.setIdentity(name);
           setJoin(true);
         } else {
           setErrors((prevErrors) => ({
@@ -93,9 +93,9 @@ const Home = (props) => {
     }
 
     if (valid) {
-      socket.emit("JOIN_GAME", { name, gameID: game }, (error) => {
+      socket.emit("JOIN_GAME", { name, leader: false, gameID: game }, (error) => {
         if (!error) {
-          props.setIdentity({ name, leader: false });
+          props.setIdentity(name);
           setJoin(true);
         } else {
           setErrors((prevErrors) => ({

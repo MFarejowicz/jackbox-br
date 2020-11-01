@@ -26,7 +26,7 @@ const DirectJoin = (props) => {
     }
 
     if (valid) {
-      socket.emit("JOIN_GAME", { name, gameID: props.gameID }, (error) => {
+      socket.emit("JOIN_GAME", { name, leader: false, gameID: props.gameID }, (error) => {
         if (!error) {
           props.onJoin(name);
         } else {

@@ -1,7 +1,10 @@
+const GameState = require("./gameState");
+
 class Player {
-  constructor(id, name) {
+  constructor(id, name, leader) {
     this.id = id;
     this.name = name;
+    this.leader = leader;
   }
 
   getID() {
@@ -11,13 +14,21 @@ class Player {
   getName() {
     return this.name;
   }
+
+  getLeadership() {
+    return this.leader;
+  }
+
+  setLeadership(leader) {
+    this.leader = leader;
+  }
 }
 
 class Game {
   constructor(id, io) {
     this.id = id;
     this.io = io;
-    this.state = "LOBBY";
+    this.state = GameState.LOBBY;
     this.players = {}; // id -> Player
     // this.timer = new Timr(60, { padRaw: false }); // padRaw false => raw returns number
     // this.timer.ticker(({ _formattedTime, _percentDone, raw }) => {
@@ -51,7 +62,7 @@ class Game {
   }
 
   hasPlayer(name) {
-    return Object.values(this.players).some((player) => player.name === name);
+    return Object.values(this.players).some((player) => player.getName() === name);
   }
 
   getPlayers() {
@@ -59,27 +70,42 @@ class Game {
   }
 
   getFormattedPlayers() {
-    return Object.values(this.players).map((player) => player.getName());
+    return Object.values(this.players).map((player) => ({
+      name: player.getName(),
+      leader: player.getLeadership(),
+    }));
   }
 
   getPlayer(id) {
     return this.players[id];
   }
 
-  addPlayer(id, name) {
+  getPlayerCount() {
+    return Object.keys(this.players).length;
+  }
+
+  addPlayer(id, name, leader) {
     if (this.hasPlayer(name)) {
       return "This name is already taken!";
     }
 
     console.log(`adding player ${id} to game ${this.getID()}`);
-    this.players[id] = new Player(id, name);
+    this.players[id] = new Player(id, name, leader);
     return "";
   }
 
   removePlayer(id) {
-    if (this.players[id]) {
+    const player = this.players[id];
+    if (player) {
       console.log(`removing player ${id} from game ${this.getID()}`);
       delete this.players[id];
+
+      if (player.leader && this.getPlayerCount() > 0) {
+        // choose new leader
+        const players = Object.values(this.getPlayers());
+        const newLeader = players[Math.floor(Math.random() * players.length)];
+        newLeader.setLeadership(true);
+      }
       return true;
     }
 
