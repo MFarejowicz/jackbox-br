@@ -22,12 +22,10 @@ const START_SPINNING_TIME = 2600;
 const CONTINUE_SPINNING_TIME = 750;
 const STOP_SPINNING_TIME = 8000;
 
-// const test = [{ option: "Trivia" }, { option: "Meme" }, { option: "Bingus" }];
-
 const Wheel = ({
   spinning,
-  prizeNumber,
   data,
+  winIndex = 0,
   onStopSpinning = () => null,
   backgroundColors = DEFAULT_BACKGROUND_COLORS,
   textColors = DEFAULT_TEXT_COLORS,
@@ -74,7 +72,7 @@ const Wheel = ({
     if (spinning) {
       startSpinning();
     }
-  }, [data.length, spinning, prizeNumber]);
+  }, [data.length, spinning, winIndex]);
 
   useEffect(() => {
     if (hasStoppedSpinning) {
@@ -84,7 +82,7 @@ const Wheel = ({
 
   const getRouletteClass = () => {
     if (hasStartedSpinning) {
-      return `Rotation-container started-spinning${prizeNumber}`;
+      return `Rotation-container started-spinning${winIndex}`;
     }
     return "Rotation-container";
   };
@@ -119,7 +117,7 @@ const Wheel = ({
 
 Wheel.propTypes = {
   spinning: PropTypes.bool.isRequired,
-  prizeNumber: PropTypes.number.isRequired,
+  winIndex: PropTypes.number,
   data: PropTypes.arrayOf(
     PropTypes.shape({
       option: PropTypes.string.isRequired,

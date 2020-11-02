@@ -2,23 +2,19 @@ const socketThing = require("socket.io");
 const Game = require("./game");
 const GameState = require("./gameState");
 
+const randomIntFromInterval = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+
 const liveGames = {};
 
-const onDisconnect = (socket, io) => {
+const onDisconnect = (socket) => {
   const { gameID } = socket;
   if (gameID) {
     const game = liveGames[gameID];
     if (game) {
-      game.removePlayer(socket.id);
+      game.removePlayer(socket);
       if (game.getPlayerCount() === 0) {
         delete liveGames[gameID];
       }
-
-      delete socket.gameID;
-      delete socket.name;
-      socket.leave(gameID);
-
-      io.to(gameID).emit("PLAYERS_UPDATE", { players: game.getFormattedPlayers() });
     }
   }
 };
@@ -43,16 +39,9 @@ const doSocket = (http) => {
       if (name && gameID) {
         const game = liveGames[gameID];
         if (game) {
-          const error = game.addPlayer(socket.id, name, leader);
-          if (callback) callback(error); // need to callback first to change to game page
-          if (!error) {
-            socket.gameID = gameID;
-            socket.name = name;
-            socket.join(gameID);
-            io.to(gameID).emit("PLAYERS_UPDATE", { players: game.getFormattedPlayers() });
-          }
+          game.addPlayer(socket, callback, name, leader);
         } else {
-          if (callback) callback(`No game exists with id ${gameID}!`);
+          callback(`No game exists with id ${gameID}!`);
           console.log(`no game exists with id ${gameID}`);
         }
       } else {
@@ -66,18 +55,25 @@ const doSocket = (http) => {
         const game = liveGames[gameID];
         if (game) {
           game.setState(GameState.PREROUNDONE);
-          io.to(gameID).emit("GAME_STATE_UPDATE", { newState: game.getState() });
+
+          setTimeout(() => {
+            io.to(gameID).emit("TRANSITION_UPDATE", { winIndex: randomIntFromInterval(0, 2) });
+          }, 5000);
+
+          setTimeout(() => {
+            game.setState(GameState.ROUNDONE);
+          }, 5000 + 11850);
         }
       }
     });
 
     socket.on("LEAVE_GAME", () => {
-      onDisconnect(socket, io);
+      onDisconnect(socket);
     });
 
     socket.on("disconnect", () => {
       console.log(`socket has disconnected ${socket.id}`);
-      onDisconnect(socket, io);
+      onDisconnect(socket);
     });
   });
 };

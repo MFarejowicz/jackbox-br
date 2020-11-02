@@ -24,7 +24,15 @@ const Game = (props) => {
     case "lobby":
       return <Lobby identity={props.identity} setIdentity={props.setIdentity} />;
     case "pre-round-1":
-      return <RoundTransition />;
+    case "pre-round-2":
+    case "pre-round-3":
+    case "pre-round-4":
+    case "pre-round-5": {
+      const round = parseInt(gameState.charAt(gameState.length - 1), 10);
+      return <RoundTransition round={round} />;
+    }
+    case "round-1":
+      return <div>round 1</div>;
     default:
       return <div>oops, game state error</div>;
   }

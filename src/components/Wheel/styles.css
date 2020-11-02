@@ -56,15 +56,15 @@
     transform: rotate(360deg);
   }
 }
-@keyframes stopSpin2 {
+
+@keyframes stopSpin0 {
   from {
     transform: rotate(0deg);
   }
   to {
-    transform: rotate(1440deg);
+    transform: rotate(1680deg);
   }
 }
-
 @keyframes stopSpin1 {
   from {
     transform: rotate(0deg);
@@ -73,13 +73,12 @@
     transform: rotate(1560deg);
   }
 }
-
-@keyframes stopSpin0 {
+@keyframes stopSpin2 {
   from {
     transform: rotate(0deg);
   }
   to {
-    transform: rotate(1680deg);
+    transform: rotate(1440deg);
   }
 }
 
